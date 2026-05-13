@@ -1,0 +1,143 @@
+base to do app 
+
+ 
+ index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Base Todo App</h1>
+        <div class="input-area">
+            <input type="text" id="todo-input" placeholder="Add a new task...">
+            <button onclick="addTodo()">Add</button>
+        </div>
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+.input-area {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 8px;
+}
+input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+button {
+    padding: 12px 24px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover { background: #5a6fd8; }
+ul {
+    list-style: none;
+}
+li {
+    padding: 12px;
+    background: #f8f9fa;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+li.done { text-decoration: line-through; color: #888; }
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+app.js
+
+let todos = [];
+
+function renderTodos() {
+    const list = document.getElementById('todo-list');
+    list.innerHTML = '';
+    todos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.className = todo.done ? 'done' : '';
+        li.innerHTML = `
+            <span onclick="toggleDone(${index})">${todo.text}</span>
+            <button class="delete-btn" onclick="deleteTodo(${index})">Delete</button>
+        `;
+        list.appendChild(li);
+    });
+}
+
+function addTodo() {
+    const input = document.getElementById('todo-input');
+    if (input.value.trim() === '') return;
+    
+    todos.push({ text: input.value.trim(), done: false });
+    input.value = '';
+    renderTodos();
+}
+
+function toggleDone(index) {
+    todos[index].done = !todos[index].done;
+    renderTodos();
+}
+
+function deleteTodo(index) {
+    todos.splice(index, 1);
+    renderTodos();
+}
+
+// Initial demo data
+todos = [
+    { text: "Welcome to your Base App!", done: false },
+    { text: "Run the 100 commit script now", done: true }
+];
+renderTodos();
+
+bash
+
+git init
+git add .
+git commit -m "feat: initial base todo app created"
+
+
